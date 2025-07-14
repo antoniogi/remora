@@ -239,7 +239,7 @@ plot_data_nv_power()
    fi
    printf "%s \n" "titleTextStyle: {color: 'black', fontSize: '18'},"  >> $FILE
    printf "%s \n" "fontSize: 18,"  >> $FILE
-   printf "%s \n" "vAxis: {title: 'Power (watts)', viewWindow: {min:0, max: 500}}," >> $FILE
+   printf "%s \n" "vAxis: {title: 'Power (watts)', viewWindow: {min:0}}," >> $FILE
    printf "%s \n" "hAxis: {title: 'Time (s)'},"      >> $FILE
    printf "%s \n" "//legend: {position: 'none'},"    >> $FILE
    printf "%s \n" "curveType: 'function',"           >> $FILE

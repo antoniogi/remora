@@ -92,11 +92,7 @@ plot_data_ompi_mpip()
         printf "%s \n" "</body>" >> $REMORA_TMPDIR/ompi_mpip_fraction.html
         printf "%s \n" "</html>" >> $REMORA_TMPDIR/ompi_mpip_fraction.html
 
-       #calls=()
-       #percents=()
-       #covs=()
-
-######
+        ###### Start Calculations
 
          local firstline=$(grep -n "Callsites:" $REMORA_OUTDIR/$DATA_FILE    | awk -F ':' '{print $1}')
          local firstline=$((firstline+3))
@@ -132,17 +128,28 @@ plot_data_ompi_mpip()
                ID[$knt]=$id_old
           Ln_Func[$knt]=$lnfunc_old
          MPI_Call[$knt]=$mpi_call_old
+         #      0,...,$knt values    e.g. 1,...,50 sites -> 0,...,49 are the indeces.
 
-         for i in `seq 0 $knt`; do
-            [[ ! -z $REMORA_MPI_DEBUG ]] && echo " -> Proc Site ID : Ln_Func_MPIcall : MPI_Call ${ID[$i]} ${Ln_Func[$i]} ${MPI_Call[$i]}"
-         done
+
+         if [[ ! -z $REMORA_MPI_DEBUG ]]; then
+           for i in `seq 0 $knt`; do
+              printf " ->ID:MPI_call:Ln_Func --  %4d %10s %s\n"  "${ID[$i]}" " ${MPI_Call[$i]}" " ${Ln_Func[$i]}"
+           done
+         fi
 
          # Add return for each element & sort for uniq (requires sequential identical values)
+         # E.g. Unique Ln_Func: 103_main_send 107_main_send 117_main_bcast 125_main_recv ...
          Ln_Func_Unique=( $(echo "${Ln_Func[@]}" | tr ' ' '\n' | sort | uniq) )
+
+         [[ ! -z $REMORA_MPI_DEBUG ]] && echo " -> Unique Ln_Func: ${Ln_Func_Unique[@]}"
+
+         #NOTE: ${Ln_Func[@]} contains Line_Functions.  ${Ln_Func[0]} is for ID=1, ${Ln_Func[1]} is for ID=2,...
 
          declare -Al call_site_ndxs
          local key val ids
          while read -r line; do
+            #                   for each Ln_Func, all index (=ID-1) are gathered by "< < ..."
+            #                   E.g. 132_main_send : 6 9 12 15 18 21 24 27 30 33 36 39 42 45 48
             key="${line%%:*}"
             val="${line#*:}"
 
@@ -150,7 +157,7 @@ plot_data_ompi_mpip()
             for i in $val; do ids+="${ID[$i]} "; done
 
             call_site_ndxs["$key"]="$ids"
-            [[ ! -z $REMORA_MPI_DEBUG ]] && echo " -> Repeated Entries:  $key $val"
+            [[ ! -z $REMORA_MPI_DEBUG ]] && echo " -> Repeated Entries (key:IDs)  $key : $ids"
 
          done < <( printf '%s\n' "${Ln_Func[@]}" |
               awk '{ elmnt[$0]= ($0 in elmnt? elmnt[$0] FS:"") NR-1 }
@@ -169,11 +176,12 @@ plot_data_ompi_mpip()
          Nlines=$((lastline-firstline+1))
          [[ ! -z $REMORA_MPI_DEBUG ]] &&  echo " -> Agg Time: firstLn= $firstline lastLn= $lastline  No Lines=$Nlines"
 
+
          i=0
          while read line; do
             tmp=($line)
             AggTms[${tmp[1]}]=${tmp[2]}   #Note: AggTMs use process call site index
-            [[ ! -z $REMORA_MPI_DEBUG ]] &&  echo " -> Read Aggregate Time ln_no=$i AggTms[${tmp[1]}] time=${Time[$i]}"
+            [[ ! -z $REMORA_MPI_DEBUG ]] &&  echo " -> Read Aggregate Time ln_no=$i AggTms[${tmp[1]}] time=${AggTms[${tmp[1]}]}"
 
             i=$((i+1))
          done < <(sed -n "$firstline,$lastline p"  $REMORA_OUTDIR/$DATA_FILE )
@@ -220,6 +228,7 @@ plot_data_ompi_mpip()
          for tm in ${AggTms[@]}; do
             AggTms_Total=$( awk "BEGIN{ print $AggTms_Total + $tm }" )
          done
+         [[ ! -z $REMORA_MPI_DEBUG ]] && echo " -> AggTms_Total=$AggTms_Total (ms)"
 
 	 # Calculate % of time in RTms(i)  <= (time/total_time) * 100 == PTime(i)
 	 # Calculate Standard Deviation== s^2   / Coefficient of Variation (s^2/mean)*100 == CV
@@ -243,7 +252,7 @@ plot_data_ompi_mpip()
          fi
 	 NRsites_m1=$(( ${#RTms[@]} - 1 ))
 
-######
+        ###### END Calculations
 
         # Generate the bar chart for top 20 MPI calls over 1%.
         printf "%s \n" "<html>"                                                            > $REMORA_TMPDIR/ompi_mpip_breakdown.html
@@ -255,12 +264,10 @@ plot_data_ompi_mpip()
         printf "%s \n" "      function drawChart() {"                                     >> $REMORA_TMPDIR/ompi_mpip_breakdown.html
         printf "%s \n" "        var data = google.visualization.arrayToDataTable(["       >> $REMORA_TMPDIR/ompi_mpip_breakdown.html
 
-#       printf "                 ['MPI Call (_call-site)', 'Fraction of MPI Time (%%)', 'Coeff of Variation (%%)'],\n" >> $REMORA_TMPDIR/ompi_mpip_breakdown.html
         printf "                 ['MPI Call (_call-site)', 'Fraction of MPI Time (%%)', '%s'],\n" "$var_string" >> $REMORA_TMPDIR/ompi_mpip_breakdown.html
 
         comma=","
-        for i in `seq 0 $NRsites_m1`; do
-          [[ $i   ==    $NRsites_m1 ]] && comma=""
+        for i in `seq $((NRsites_m1+1))`; do
           printf "                 ['${Rsite[$i]}', ${RTms[$i]}, ${Rvar[$i]}]${comma}\n" >> $REMORA_TMPDIR/ompi_mpip_breakdown.html
         done
 
@@ -285,6 +292,7 @@ plot_data_ompi_mpip()
 
     fi
 }
+
 
 finalize_module_ompi_mpip()
 {
