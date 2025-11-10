@@ -1,0 +1,16 @@
+#!/bin/bash
+# @ TACC, you can use mkmod to create
+# a module
+
+ml mkmod
+
+export VER=2.0
+export NAME=remora
+export TOPDIR=`pwd`
+export PREFIX=""
+
+export ENV1="REMORA_BIN=`pwd`/bin"
+export ENV2="REMORA_PERIOD=10"
+export TOPDIR_LDPATH_LIST=mpiP-3.5/lib
+           
+mkmod

@@ -112,7 +112,7 @@ plot_data_ompi_mpip()
             lev=${elements[1]}
 
             [[ $lev == 0 ]] &&  mpi_call=${elements[-1]}
-            if [[ $id != $id_old ]]; then     #Assumes that first id is 1
+            if [[ $id != $id_old ]] && [[ $id -ne 1 ]]; then # important skip 1st
                MPI_Call[$knt]=$mpi_call_old
                ID[$knt]=$id_old
                Ln_Func[$knt]=$lnfunc_old
@@ -267,7 +267,7 @@ plot_data_ompi_mpip()
         printf "                 ['MPI Call (_call-site)', 'Fraction of MPI Time (%%)', '%s'],\n" "$var_string" >> $REMORA_TMPDIR/ompi_mpip_breakdown.html
 
         comma=","
-        for i in `seq $((NRsites_m1+1))`; do
+        for i in `seq 0 $((NRsites_m1))`; do
           printf "                 ['${Rsite[$i]}', ${RTms[$i]}, ${Rvar[$i]}]${comma}\n" >> $REMORA_TMPDIR/ompi_mpip_breakdown.html
         done
 
