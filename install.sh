@@ -175,9 +175,9 @@
         tar xzvf ${mpipfile}
         [[ -f ./extra/mpiP-3.4.1/make-wrappers.py ]] && sed -i 's@#!/usr/local/bin/python@#!/usr/bin/python2@' ./extra/mpiP-3.4.1/make-wrappers.py
         [[ -f ./extra/mpiP-3.5/make-wrappers.py   ]] && sed -i 's@#!/usr/local/bin/python@#!/usr/bin/python@'  ./extra/mpiP-3.5/make-wrappers.py
-        if [[ -f ./extra/mpiP-3.5/report.c        ]]; then
-             sed -i 's/^  for (i = 0; (i < 20) && (i < ac); i++)/  for (i = 0; i < ac; i++)/'  ./extra/mpiP-3.5/report.c
-             sed -i 's/Aggregate Time (top twenty,/Aggregate Time (all,/'                      ./extra/mpiP-3.5/report.c
+        if [[ -f ./mpiP-3.5/report.c        ]]; then
+             sed -i 's/^  for (i = 0; (i < 20) && (i < ac); i++)/  for (i = 0; i < ac; i++)/'  ./mpiP-3.5/report.c
+             sed -i 's/Aggregate Time (top twenty,/Aggregate Time (all,/'                      ./mpiP-3.5/report.c
         fi
   
         [[ $(hostname -f) =~ ".ls6.tacc" ]] && 
