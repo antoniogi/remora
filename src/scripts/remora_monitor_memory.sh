@@ -3,12 +3,13 @@
 # DO NOT call this script directly. This is called by REMORA. 
 #
 #========================================================================
-# IMPLEMENTATION
-#-      version     REMORA 2.0
-#      authors     Carlos Rosales ( carlos@tacc.utexas.edu)
-#                  Antonio Gomez  ( agomez@tacc.utexas.edu)
-#      custodian   Kent Milfeld   (milfeld@tacc.utexas.edu)
-#      license     MIT
+#- IMPLEMENTATION
+#-      version     REMORA 2.1
+#-      authors     Carlos Rosales ( carlos@tacc.utexas.edu)
+#-                  Antonio Gomez  ( agomez@tacc.utexas.edu)
+#-                  Kent Milfeld   (milfeld@tacc.utexas.edu)
+#-                  Albert Lu      (    alu@tacc.utexas.edu)
+#-      license     MIT
 #========================================================================
 
 

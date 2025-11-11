@@ -1,5 +1,14 @@
 #!/bin/bash
 
+#- IMPLEMENTATION
+#-      version     REMORA 2.1
+#-      authors     Carlos Rosales ( carlos@tacc.utexas.edu)
+#-                  Antonio Gomez  ( agomez@tacc.utexas.edu)
+#-                  Kent Milfeld   (milfeld@tacc.utexas.edu)
+#-                  Albert Lu      (    alu@tacc.utexas.edu)
+#-      license     MIT
+
+
 init_module_gpu()
 {
     REMORA_NODE=$1; REMORA_OUTDIR=$2; REMORA_TMPDIR=$3

@@ -5,7 +5,7 @@
 ml mkmod
 
 export VER=2.0
-export NAME=remora
+export NAME=rem8
 export TOPDIR=`pwd`
 export PREFIX=""
 
