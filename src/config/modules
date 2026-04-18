@@ -5,6 +5,8 @@ mpi,MPI
 ib,NETWORK
 gpu,GPU
 network,NETWORK
-nv_power,POWER
-nv_temperature,TEMPERATURE
+power,POWER
+temperature,TEMPERATURE
 eth,NETWORK
+lnet,IO
+lustre,IO

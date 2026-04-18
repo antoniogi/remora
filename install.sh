@@ -23,7 +23,8 @@
   mkdir -p $REMORA_DIR/share
   mkdir -p $REMORA_DIR/docs
   
-  VERSION=2.0
+  source $(dirname ${BASH_SOURCE[0]})/src/VERSION 
+
   COPYRIGHT1="Copyright 2023 The University of Texas at Austin."
   COPYRIGHT2="License: MIT <http://opensource.org/licenses/MIT>"
   COPYRIGHT3="This is free software: you are free to change and redistribute it."
@@ -263,10 +264,10 @@ echo " ==>"        ./configure --prefix=${REMORA_DIR}/mpiP-$MPIP_VER \
         sed -i 's/ib,NETWORK/opa,NETWORK/' $REMORA_DIR/bin/config/modules
      fi
   fi
-    
-  if [[ $(hostname -f) =~ ".ls6.tacc" ]] || [[ $(hostname -f) =~ ".frontera.tacc" ]]; then
+  HOSTNAME=$(hostname -f)  
+  if [[ $HOSTNAME =~ ".ls6.tacc" ]] || [[ $HOSTNAME =~ ".stampede.tacc" ]] || [[ $HOSTNAME =~ ".stampede.tacc" ]]; then
      sed -i '/lustre,IO/d' $REMORA_DIR/bin/config/modules
-    sed -i '/lnet,IO/d'   $REMORA_DIR/bin/config/modules
+     sed -i '/lnet,IO/d'   $REMORA_DIR/bin/config/modules
      echo "** WARNING \"lustre,IO\" and \"lnet,IO\" modules are NOT AVAILABLE. **  "  |  tee -a $INSTALL_LOG
      echo "**         Recent security changes only allow root access to IO counters." |  tee -a $INSTALL_LOG
      echo "**         Remora will be updated when a workaround becomes available."    |  tee -a $INSTALL_LOG
