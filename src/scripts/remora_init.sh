@@ -13,7 +13,6 @@
 # remora_init "$@"
 #========================================================================
 #- IMPLEMENTATION
-#-      version     REMORA 2.1
 #-      authors     Carlos Rosales ( carlos@tacc.utexas.edu)
 #-                  Antonio Gomez  ( agomez@tacc.utexas.edu)
 #-                  Kent Milfeld   (milfeld@tacc.utexas.edu)

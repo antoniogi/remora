@@ -37,7 +37,6 @@
 #%
 #========================================================================
 #- IMPLEMENTATION
-#-      version     REMORA 2.1
 #-
 #-                  Main initial authors, up to mid 2015
 #-      authors     Carlos Rosales ( carlos@tacc.utexas.edu)
@@ -107,7 +106,7 @@
 
    Command Line Mode: remora wrapper for batch job or interactive job
 
-   $APP -h            # This help
+   $APP [ -h | -v ]            # This help or version
    $APP <executable>  # e.g. $APP ibrun -np 8 ./a.out
 
      Use these environment variables for control:
@@ -143,7 +142,7 @@
 
    snapshot cannot collect MPI statistics
 "
-
+[[ $1 =~ -v ]] && source $(dirname ${BASH_SOURCE[0]})/VERSION && echo " REMORA_VERSION=$VERSION" && exit 0
 [[ $1 =~ -h ]] && echo "$USAGE" && exit 0
 
 

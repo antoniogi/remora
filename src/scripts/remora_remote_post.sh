@@ -12,7 +12,6 @@
 #% remora_remote_post.sh $NODE $REMORA_OUTDIR $REMORA_BIN $REMORA_VERBOSE
 #========================================================================
 #- IMPLEMENTATION
-#-                 version     REMORA 1.8.6
 #-
 #-up to mid 2017
 #-               Carlos Rosales ( carlos@tacc.utexas.edu)

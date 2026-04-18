@@ -18,7 +18,6 @@
 #%
 #========================================================================
 #- IMPLEMENTATION
-#-      version     REMORA 2.1
 #-      authors     Carlos Rosales ( carlos@tacc.utexas.edu)
 #-                  Antonio Gomez  ( agomez@tacc.utexas.edu)
 #-                  Kent Milfeld   (milfeld@tacc.utexas.edu)
@@ -39,6 +38,8 @@
 #========================================================================
 # END_OF_HEADER
 #========================================================================
+
+[[ $1 =~ -v ]] && source $(dirname ${BASH_SOURCE[0]})/VERSION && echo " REMORA_VERSION=$VERSION" && exit 0
 
 # Abort because we will not find any of the functions
 # if REMORA_BIN is not defined

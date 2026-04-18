@@ -13,7 +13,6 @@
 #%
 #========================================================================
 #- IMPLEMENTATION
-#-      version     REMORA 2.1
 #-      authors     Carlos Rosales ( carlos@tacc.utexas.edu)
 #-                  Antonio Gomez  ( agomez@tacc.utexas.edu)
 #-                  Kent Milfeld   (milfeld@tacc.utexas.edu)
@@ -21,6 +20,7 @@
 #-      license     MIT
 #========================================================================
 
+[[ $1 =~ -v ]] && source $(dirname ${BASH_SOURCE[0]})/VERSION && echo " REMORA_VERSION=$VERSION" && exit 0
 
 REMORA_JOB_ID=-1
 if [[ "$#" -ne 2 ]]; then

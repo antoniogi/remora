@@ -13,7 +13,6 @@
 # remora_post_crash -j JOBID
 #========================================================================
 #- IMPLEMENTATION
-#-      version     REMORA 2.1
 #-      authors     Carlos Rosales ( carlos@tacc.utexas.edu)
 #-                  Antonio Gomez  ( agomez@tacc.utexas.edu)
 #-                  Kent Milfeld   (milfeld@tacc.utexas.edu)
@@ -22,6 +21,8 @@
 #========================================================================
 
 # --- Show a final report on screen
+
+[[ $1 =~ -v ]] && source $(dirname ${BASH_SOURCE[0]})/VERSION && echo " REMORA_VERSION=$VERSION" && exit 0
 
 source $REMORA_BIN/aux/extra
 source $REMORA_BIN/aux/report

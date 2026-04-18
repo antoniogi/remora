@@ -5,6 +5,8 @@ USAGE+="        Default: compares $RDIR/src to $PWD/src.\n"
 USAGE+="        To compare to remote bin use RBINorSRC=bin.\n" 
 USAGE+="        (RBINorSRC=bin and RDIR==PWD, checking self bin against src.\n" 
 
+[[ $1 =~ -v ]] && source $(dirname ${BASH_SOURCE[0]})/VERSION && echo " REMORA_VERSION=$VERSION" && exit 0
+
 
 RBINorSRC=src
 RDIR=`pwd`
