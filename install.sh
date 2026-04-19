@@ -53,7 +53,7 @@
   echo $COPYRIGHT4 | tee -a $BUILD_LOG
   echo $SEPARATOR  | tee -a $BUILD_LOG
   echo             | tee -a $BUILD_LOG
-  
+
   #Now build mpstat
 
   echo " ==> Building mpstat ..." | tee -a $BUILD_LOG
@@ -298,6 +298,13 @@ echo " ==>"        ./configure --prefix=${REMORA_DIR}/mpiP-$MPIP_VER \
           cp $PWD/docs/modules_whatis        $REMORA_DIR/docs
           cp $PWD/docs/remora_user_guide.pdf $REMORA_DIR/docs
     echo "Copied modules_help modules_whatis and remora.pdf to $REMORA_DIR/docs dir."
+  fi
+
+  #check for an nvidia GPU:
+  gputest=$(nvidia-smi > /dev/null 2> /dev/null || echo "0")
+  if [[ $gputest != 0 ]]; then
+     sed -i 's/power,POWER/nv_power,POWER/'                         $REMORA_DIR/config/modules
+     sed -i 's/temperature,TEMPERATURE/nv_temperature,TEMPERATURE/' $REMORA_DIR/config/modules
   fi
   
   echo $SEPARATOR
